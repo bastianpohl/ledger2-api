@@ -4,7 +4,7 @@ import Categories from '../models/categories';
 
 class CategoryController implements IfController {
    public router = Router()   
-   private path = '/categories'
+   public path = '/categories'
    private categories: Categories
 
    constructor() {

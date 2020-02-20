@@ -3,9 +3,8 @@ import IfController from '../interfaces/controller';
 import Documents from '../models/documents'
 
 class DocumentsController implements IfController {
-   
    public router = Router()
-   private path = "/documents"
+   public path = "/documents"
    private docs: Documents
 
    constructor() {

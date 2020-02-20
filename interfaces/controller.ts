@@ -2,8 +2,9 @@ import { Router } from 'express'
 
 interface IfController {   
    router: Router
-   initRoutes(): any
+   path: String
    
+   initRoutes(): any
 }
 
 export default IfController
