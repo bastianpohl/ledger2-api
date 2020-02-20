@@ -30,6 +30,14 @@ class Documents {
          return error
       }
    }
+
+   asignCategory = async() => {
+      try {
+         return 
+      } catch (error) {
+         return error
+      }
+   }
 }
 
 export default Documents

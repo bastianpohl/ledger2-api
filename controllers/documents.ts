@@ -1,5 +1,4 @@
-import { Router } from 'express'
-import { Request, Response } from "express";
+import { Request, Response, Router } from "express";
 import IfController from '../interfaces/controller';
 import Documents from '../models/documents'
 

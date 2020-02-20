@@ -1,10 +1,10 @@
 import * as sql from 'mysql2/promise'
 
 class DatabaseManager { 
-   public host: any
-   public user: any
-   public pass: any
-   public db: any
+   private host: any
+   private user: any
+   private pass: any
+   private db: any
    public conn: any
    constructor(init: {host: String, user: String, pass: String, db: String}) {
       this.host = init.host
@@ -12,6 +12,7 @@ class DatabaseManager {
       this.pass = init.pass
       this.db = init.db
       this.conn = null
+      
    }
 
    initDB = async () => {
