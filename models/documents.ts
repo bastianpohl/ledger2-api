@@ -31,9 +31,16 @@ class Documents {
       }
    }
 
-   asignCategory = async() => {
+   asignCategory = async(data) => {
       try {
-         return 
+         let sql = `
+            UPDATE 
+               transactions
+            SET category = ${data.category}
+            WHERE id = ${data.id}
+         `
+         let [result, fields] = await dmb.query(sql, undefined)
+         return result
       } catch (error) {
          return error
       }
