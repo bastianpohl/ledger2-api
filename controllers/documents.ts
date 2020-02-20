@@ -3,8 +3,9 @@ import IfController from '../interfaces/controller';
 import Documents from '../models/documents'
 
 class DocumentsController implements IfController {
-   public path = "/documents"
+   
    public router = Router()
+   private path = "/documents"
    private docs: Documents
 
    constructor() {
@@ -24,7 +25,7 @@ class DocumentsController implements IfController {
 
    asignCategory = async (req: Request, res: Response) => {
       let data = req.body
-      let result = this.docs.asignCategory(data)
+      let result = await this.docs.asignCategory(data)
       res.status(200).json(result)
    }
 }

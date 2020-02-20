@@ -19,7 +19,7 @@ class App {
    
    private routes(controllers) {
       controllers.forEach(controller => {
-         this.app.use(controller.path, controller.router)
+         this.app.use(controller.router)
       });
    }
 

@@ -1,8 +1,9 @@
 import { Router } from 'express'
 
-interface IfController {
-   initRoutes(): any
+interface IfController {   
    router: Router
+   initRoutes(): any
+   
 }
 
 export default IfController
