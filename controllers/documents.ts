@@ -18,14 +18,22 @@ class DocumentsController implements IfController {
    }
 
    index = async (req: Request, res: Response) => {
-      let result = await this.docs.getAll()
-      res.status(200).json(result)
+      try {
+         let result = await this.docs.getAll()
+         res.status(200).json(result)
+      } catch (error) {
+         res.status(400).json(error)
+      }
    }
 
    asignCategory = async (req: Request, res: Response) => {
-      let data = req.body
-      let result = await this.docs.asignCategory(data)
-      res.status(200).json(result)
+      try {
+         let data = req.body
+         let result = await this.docs.asignCategory(data)
+         res.status(200).json(result)
+      } catch (error) {
+         res.status(400).json(error)
+      }
    }
 }
 

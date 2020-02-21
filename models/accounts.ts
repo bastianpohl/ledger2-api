@@ -7,7 +7,7 @@ let dbm = new DatabaseManager({
    db: `ledger`
 })
 
-class Categories {
+class Accounts {
    constructor() {
       this.init()
    }
@@ -16,82 +16,71 @@ class Categories {
       await dbm.checkDB()
    }
 
-   getAll = async () => {
+   index = async(user) => {
       try {
-         let sql  = `
-         SELECT 
-            *
-         FROM
-            categories
-         `
-         let [result, fields] = await dbm.query(sql, undefined)
-         return result         
-      } catch (error) {
-         return error
-      }
-  }
-
-  get = async(data) => {
-     try {
          let sql = `
             SELECT 
-               *
+               acc.id, acc.iban, acc.title
             FROM
-               categories
+               accounts as acc
+            LEFT JOIN accounts_user_relations as rel
+            ON acc.id = rel.account
             WHERE
-               id = ${data}
+               rel.user = '${user}'
          `
          let [result, fields] = await dbm.query(sql, undefined)
-         return result    
-     } catch (error) {
-         return error
-     }
-  }
-
-  create = async (data) => {
-      try {
-         let sql = `
-            INSERT INTO
-               categories
-            SET ?
-         `
-         let [result, fields] = await dbm.query(sql, data)
          return result  
       } catch (error) {
          return error
       }
    }
 
-   delete = async(data) => {
+   create = async (data) => {
       try {
          let sql = `
-            DELETE FROM
-               categories
-            WHERE id = ${data}
+            INSERT INTO
+               accounts
+            SET ?
          `
-         let [result, fields] = await dbm.query(sql, undefined)
-         return result 
+         let [result, fields] = await dbm.query(sql, data)
+         return result          
       } catch (error) {
          return error
       }
    }
 
-   update = async(data) => {
+   update = async (data) => {
       try {
          let sql = `
             UPDATE 
-               categories
+               accounts
             SET
-               title = '${data.title}'
+               iban = '${data.iban}' AND
+               title = '${data.title}
             WHERE
                id = '${data.id}'
          `
          let [result, fields] = await dbm.query(sql, undefined)
-         return result 
+         return result   
+      } catch (error) {
+         return error
+      }
+   }
+
+   delete = async (data) => {
+      try {
+         let sql = `
+            DELETE FROM
+               accounts
+            WHERE
+               id = '${data}'
+         `
+         let [result, fields] = await dbm.query(sql, undefined)
+         return result          
       } catch (error) {
          return error
       }
    }
 }
 
-export default Categories
+export default Accounts

@@ -21,32 +21,52 @@ class CategoryController implements IfController {
    }
 
    index = async (req: Request, res: Response) => {
-      let result = await this.categories.getAll()
-      res.status(200).json(result)
+      try {
+         let result = await this.categories.getAll()
+         res.status(200).json(result)
+      } catch (error) {
+         res.status(400).json(error)
+      }
    }
 
    get = async (req: Request, res: Response) => {
-      let id = req.params.id
-      let result = await this.categories.get(id)
-      res.status(200).json(result)
+      try {
+         let id = req.params.id
+         let result = await this.categories.get(id)
+         res.status(200).json(result)       
+      } catch (error) {
+         res.status(400).json(error)
+      }
    }
 
    create = async (req: Request, res: Response) => {
-      let data = req.body
-      let result = await this.categories.create(data)
-      res.status(201).json(result)
+      try {
+         let data = req.body
+         let result = await this.categories.create(data)
+         res.status(201).json(result)         
+      } catch (error) {
+         res.status(400).json(error)
+      }
    }
 
    update = async (req: Request, res: Response) => {
-      let data = req.body
-      let result = await this.categories.update(data)
-      res.status(202).json(result)
+      try {
+         let data = req.body
+         let result = await this.categories.update(data)
+         res.status(202).json(result)         
+      } catch (error) {
+         res.status(400).json(error)
+      }
    }
 
    delete = async (req: Request, res: Response) => {
-      let id = req.body.id
-      let result = await this.categories.delete(id)
-      res.status(202).json(result)
+      try {
+         let id = req.body.id
+         let result = await this.categories.delete(id)
+         res.status(202).json(result)
+      } catch (error) {
+         res.status(400).json(error)
+      }
    }
  
 }
