@@ -27,7 +27,7 @@ class Categories {
          let [result, fields] = await dbm.query(sql, undefined)
          return result         
       } catch (error) {
-         return error
+         throw error
       }
   }
 
@@ -44,7 +44,7 @@ class Categories {
          let [result, fields] = await dbm.query(sql, undefined)
          return result    
      } catch (error) {
-         return error
+         throw error
      }
   }
 
@@ -58,7 +58,7 @@ class Categories {
          let [result, fields] = await dbm.query(sql, data)
          return result  
       } catch (error) {
-         return error
+         throw error
       }
    }
 
@@ -72,7 +72,7 @@ class Categories {
          let [result, fields] = await dbm.query(sql, undefined)
          return result 
       } catch (error) {
-         return error
+         throw error
       }
    }
 
@@ -89,7 +89,7 @@ class Categories {
          let [result, fields] = await dbm.query(sql, undefined)
          return result 
       } catch (error) {
-         return error
+         throw error
       }
    }
 }

@@ -27,7 +27,7 @@ class Documents {
          let [result, fields] = await dmb.query(sql, undefined)
          return result
       } catch (error) {
-         return error
+         throw error
       }
    }
 
@@ -42,7 +42,7 @@ class Documents {
          let [result, fields] = await dmb.query(sql, undefined)
          return result
       } catch (error) {
-         return error
+         throw error
       }
    }
 }

@@ -37,7 +37,7 @@ class DatabaseManager {
       try {
          return (values) ? await this.conn.query(sql, values) : await this.conn.query(sql)
       } catch (error) {
-         return error
+         throw error
       }
    }
    

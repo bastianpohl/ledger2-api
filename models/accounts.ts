@@ -23,7 +23,7 @@ class Accounts {
                acc.id, acc.iban, acc.title
             FROM
                accounts as acc
-            LEFT JOIN accounts_user_relations as rel
+            LEFT JOIN accounts_users_relations as rel
             ON acc.id = rel.account
             WHERE
                rel.user = '${user}'
@@ -31,7 +31,7 @@ class Accounts {
          let [result, fields] = await dbm.query(sql, undefined)
          return result  
       } catch (error) {
-         return error
+         throw error
       }
    }
 
@@ -45,7 +45,7 @@ class Accounts {
          let [result, fields] = await dbm.query(sql, data)
          return result          
       } catch (error) {
-         return error
+         throw error
       }
    }
 
@@ -63,7 +63,7 @@ class Accounts {
          let [result, fields] = await dbm.query(sql, undefined)
          return result   
       } catch (error) {
-         return error
+         throw error
       }
    }
 
@@ -78,7 +78,7 @@ class Accounts {
          let [result, fields] = await dbm.query(sql, undefined)
          return result          
       } catch (error) {
-         return error
+         throw error
       }
    }
 }

@@ -36,7 +36,7 @@ class Sessions {
          let [result, fields] = await dbm.query(sql, undefined)
          return result
       } catch (error) {
-         return error
+         throw error
       }
    }
 }

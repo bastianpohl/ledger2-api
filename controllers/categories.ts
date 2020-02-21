@@ -3,9 +3,9 @@ import IfController from '../interfaces/controller';
 import Categories from '../models/categories';
 
 class CategoryController implements IfController {
-   public router = Router()   
-   public path = '/categories'
-   private categories: Categories
+   public router = Router();
+   public path = '/categories';
+   private categories: Categories;
 
    constructor() {
       this.initRoutes()

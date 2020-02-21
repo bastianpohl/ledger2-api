@@ -4,15 +4,14 @@ import Sessions from '../models/sessions';
 import Accounts from '../models/accounts'
 
 class AccountsController implements IfController {
-   public router: Router;
-   public path = "/accounts"
+   public router = Router();
+   public path = "/accounts";
    private token: String;
    private accounts: Accounts;
 
    constructor() {
-      this.accounts = new Accounts()
-      this.token = String(request.headers['x-token'])
       this.initRoutes()
+      this.accounts = new Accounts()
    }
 
    initRoutes() {
@@ -24,7 +23,7 @@ class AccountsController implements IfController {
 
    index = async (req: Request, res: Response) => {
       try {
-         let user = this.getUser(this.token)
+         let user = await this.getUser(String(req.headers['x-token']))
          let result = await this.accounts.index(user)
          res.status(200).json(result)
       } catch (error) {
