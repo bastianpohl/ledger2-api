@@ -1,5 +1,5 @@
 import IfController from '../interfaces/controller';
-import { Request, Response, Router, request } from 'express';
+import { Request, Response, Router } from 'express';
 import Sessions from '../models/sessions';
 import Accounts from '../models/accounts'
 

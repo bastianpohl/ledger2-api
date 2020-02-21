@@ -33,7 +33,7 @@ class CategoryController implements IfController {
       try {
          let id = req.params.id
          let result = await this.categories.get(id)
-         res.status(200).json(result)       
+         res.status(200).json(result)
       } catch (error) {
          res.status(400).json(error)
       }

@@ -10,7 +10,10 @@ class Auth {
       "access_granted": "User with ID:"
       }
 
-   private token: String
+   private exceptionURLs = [
+      "/login", "/register"
+   ]
+
    public user: Number
    
    constructor(req: Request, res: Response, next: NextFunction) {
@@ -20,19 +23,14 @@ class Auth {
 
    checkAuthentication = async(req: Request, res: Response, next) => {  
       try {
-         let token = req.headers['x-token']
-         this.tokenExists(token)
-         let user = await this.getUser(token)
-         switch (user.length) {
-            case 0:
-               res.status(401).json(this.messages.token_invalid)
-               break;
-            case 1:
-               console.log(`${this.messages.access_granted} ${user[0].user}`);
-               next();
+         if (!this.exceptionURLs) {
+            let token = req.headers['x-token']
+            this.tokenExists(token)
+            await this.validateToken(token)
          }
+         next()
       } catch (error) {
-         res.status(400).json(error)
+         res.status(401).json(error)
       }
    }
 
@@ -42,19 +40,31 @@ class Auth {
       }
    }
 
+   private validateToken = async(token) => {
+      let user = await this.getUser(token)
+      switch (user.length) {
+         case 0:
+            throw new Error(this.messages.token_invalid);
+         case 1:
+            console.log(`${this.messages.access_granted} ${user[0].user}`);
+            break;
+         default:
+            throw new Error(this.messages.error);
+      }
+   }
+
    private getUser = async(token) => {
       try {
          let sessions = await new Sessions()
          return await sessions.getUserByToken(token)
       } catch (error) {
-         return error
+         throw error
       }
    }
 
-
+   private checkException = (req: Request) => {
+      return this.exceptionURLs.includes(req.baseUrl)
+   }
 }
-
-
-
 
 export default Auth
