@@ -1,5 +1,6 @@
 import DatabaseManager from './db';
 import * as moment from 'moment';
+import uuid from '../generic/uuid'
 
 let dbm = new DatabaseManager({
    host: `localhost`,
@@ -35,6 +36,32 @@ class Sessions {
          `
          let [result, fields] = await dbm.query(sql, undefined)
          return result
+      } catch (error) {
+         throw error
+      }
+   }
+
+   generateToken = async (user: Number) => {
+      try {
+         let sessionObj = {
+            "token": uuid(),
+            "user": user,
+            "token_valid_from": moment().format("YYYY-MM-DD"),
+            "token_valid_to": moment().add(5, "days").format("YYYY-MM-DD")
+         }
+   
+         let sql = `
+            INSERT INTO
+               sessions
+            SET
+               ?
+         `
+         let [result, fields] = await dbm.query(sql, sessionObj)
+         if (result.affectedRows === 1) {
+            return sessionObj
+         } else {
+            throw new Error("could not create Session")
+         }
       } catch (error) {
          throw error
       }
