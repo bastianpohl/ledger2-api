@@ -24,7 +24,7 @@ class Categories {
          FROM
             categories
          `
-         let [result, fields] = await dbm.query(sql, undefined)
+         let [result, fields] = await dbm.query(sql)
          return result         
       } catch (error) {
          throw error

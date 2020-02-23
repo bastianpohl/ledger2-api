@@ -39,7 +39,7 @@ class Documents {
             SET category = ${data.category}
             WHERE id = ${data.id}
          `
-         let [result, fields] = await dmb.query(sql, undefined)
+         let [result, fields] = await dmb.query(sql)
          return result
       } catch (error) {
          throw error

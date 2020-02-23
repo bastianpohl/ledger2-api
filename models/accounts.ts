@@ -28,7 +28,7 @@ class Accounts {
             WHERE
                rel.user = '${user}'
          `
-         let [result, fields] = await dbm.query(sql, undefined)
+         let [result, fields] = await dbm.query(sql)
          return result  
       } catch (error) {
          throw error
@@ -60,7 +60,7 @@ class Accounts {
             WHERE
                id = '${data.id}'
          `
-         let [result, fields] = await dbm.query(sql, undefined)
+         let [result, fields] = await dbm.query(sql)
          return result   
       } catch (error) {
          throw error
@@ -75,7 +75,7 @@ class Accounts {
             WHERE
                id = '${data}'
          `
-         let [result, fields] = await dbm.query(sql, undefined)
+         let [result, fields] = await dbm.query(sql)
          return result          
       } catch (error) {
          throw error

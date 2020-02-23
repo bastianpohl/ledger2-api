@@ -34,7 +34,7 @@ class Sessions {
                token_valid_to >= '${now}'
             LIMIT 1
          `
-         let [result, fields] = await dbm.query(sql, undefined)
+         let [result, fields] = await dbm.query(sql)
          return result
       } catch (error) {
          throw error

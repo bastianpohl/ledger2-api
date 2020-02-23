@@ -19,7 +19,7 @@ class UserController implements IfController {
       this.router.post('/register', this.register)
    }
 
-   login = async (req: Request, res: Response) => {
+   login = async (req: Request, res: Response) : Promise<any> => {
       try {
          let user = req.body.user
          let pass = req.body.pass
@@ -42,7 +42,7 @@ class UserController implements IfController {
       }
    }
 
-   register = async (req: Request, res: Response) => {
+   register = async (req: Request, res: Response) : Promise<any> => {
       try {
          
       } catch (error) {
@@ -50,9 +50,9 @@ class UserController implements IfController {
       }
    }
 
-   private validatePassword = async (pass, hash, salt) => {
+   private validatePassword = async (pass, hash, salt) : Promise<Boolean> => {
       let hashed_pass = await hasha.async(pass+salt, {algorithm: "sha256"})
-      return (hashed_pass === hash) ? true: false
+      return (hashed_pass === hash) ? true : false
    }
 }
 

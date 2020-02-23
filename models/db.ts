@@ -33,9 +33,9 @@ class DatabaseManager {
       }
    }
 
-   query = async(sql, values) => {
+   query = async(sql, values?) => {
       try {
-         return (values) ? await this.conn.query(sql, values) : await this.conn.query(sql)
+         return await this.conn.query(sql, values)
       } catch (error) {
          throw error
       }
