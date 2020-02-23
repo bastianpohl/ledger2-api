@@ -23,7 +23,7 @@ class Auth {
 
    checkAuthentication = async(req: Request, res: Response, next) => {  
       try {
-         if (!this.exceptionURLs) {
+         if (!this.checkException(req)) {
             let token = req.headers['x-token']
             this.tokenExists(token)
             await this.validateToken(token)
