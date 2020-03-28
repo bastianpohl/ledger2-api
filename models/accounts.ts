@@ -35,6 +35,67 @@ class Accounts {
       }
    }
 
+   getDetails = async (id: number) => {
+      try {
+         let sql = `
+            SELECT 
+            acc.id as id, 
+            acc.title as title, 
+            acc.iban as iban,
+            bal.value as balance
+            FROM
+               accounts as acc
+            LEFT JOIN 
+               balances as bal
+            ON 
+               acc.iban = bal.iban
+            WHERE
+               acc.id = '${id}'
+            AND
+               bal.date = (SELECT MAX(valueDate) from transactions as trans WHERE trans.account = '${id}')
+            `
+         let [result, fields] = await dbm.query(sql)
+         return result
+      } catch (error) {
+         throw error
+      }
+   }
+
+   getOpeningBalance = async(account: number, from: string, to: string) => {
+      try {
+         let sql = `
+         	SELECT 
+                  openingBalance as opening
+               FROM 
+                  balances as bal
+               LEFT JOIN  
+                  accounts as acc
+               ON 
+                  acc.iban = bal.iban
+               WHERE 
+                  bal.date = (
+                     SELECT 
+                        MIN(valueDate) 
+                     FROM 
+                        transactions
+                     WHERE 
+                        valueDate 
+                     BETWEEN '${from}' AND '${to}'
+                     AND 
+                        account = '${account}'
+                  )
+               AND 
+                  acc.id = '${account}'
+         `
+         let [result, fields] = await dbm.query(sql)
+         return result
+      } catch (error) {
+         throw error
+      }
+   }
+
+
+
    create = async (data) => {
       try {
          let sql = `
@@ -43,7 +104,7 @@ class Accounts {
             SET ?
          `
          let [result, fields] = await dbm.query(sql, data)
-         return result          
+         return result
       } catch (error) {
          throw error
       }
@@ -76,7 +137,7 @@ class Accounts {
                id = '${data}'
          `
          let [result, fields] = await dbm.query(sql)
-         return result          
+         return result
       } catch (error) {
          throw error
       }

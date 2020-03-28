@@ -1,6 +1,7 @@
 import * as express from 'express'
 import { Application, Request, Response } from 'express'
 import Auth from '../middleware/auth'
+import * as cors from 'cors';
 
 class App {
    public app: Application
@@ -9,6 +10,7 @@ class App {
    constructor(init: { port: number; middlewares: any; controllers: any;}) {
       this.app = express()
       this.port = init.port
+      this.cors()
       this.auth()
       this.middlewares(init.middlewares)
       this.routes(init.controllers)
@@ -18,6 +20,10 @@ class App {
       this.app.use('*', (req: Request, res: Response, next) => {
          new Auth(req, res, next)
       })
+   }
+
+   private cors() {
+      this.app.use(cors())
    }
 
    private middlewares(middlewares) {

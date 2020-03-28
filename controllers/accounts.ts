@@ -16,6 +16,8 @@ class AccountsController implements IfController {
 
    initRoutes() {
       this.router.get(this.path, this.index)
+      this.router.get(`${this.path}/details/:id`, this.getDetails)
+      this.router.get(`${this.path}/balance/:id/:from/:to`, this.getOpeningBalance)
       this.router.post(this.path, this.create)
       this.router.patch(this.path, this.update)
       this.router.delete(this.path, this.delete)
@@ -25,9 +27,32 @@ class AccountsController implements IfController {
       try {
          let user = await this.getUser(String(req.headers['x-token']))
          let result = await this.accounts.index(user)
+         console.log(result)
          res.status(200).json(result)
       } catch (error) {
          res.status(400).json(error)
+      }
+   }
+   
+   getDetails = async (req: Request, res: Response) => {
+      try {
+         const account = Number(req.params.id)
+         const result = await this.accounts.getDetails(account)
+         res.status(200).json(result)
+      } catch (err) {
+         res.status(400).json(err)
+      }
+   }
+
+   getOpeningBalance = async (req: Request, res: Response) => {
+      try {
+         const account = Number(req.params.id)
+         const from = req.params.from
+         const  to = req.params.to
+         const result = await this.accounts.getOpeningBalance(account, from, to)
+         res.status(200).json(result)
+      } catch (err) {
+         res.status(400).json(err)
       }
    }
 

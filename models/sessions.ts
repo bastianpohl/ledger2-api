@@ -23,7 +23,7 @@ class Sessions {
          let now = moment().format("YYYY-MM-DD")
          let sql = `
             SELECT 
-               user
+               user, token_valid_from, token_valid_to
             FROM
                sessions
             WHERE 

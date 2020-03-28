@@ -31,6 +31,23 @@ class Categories {
       }
   }
 
+  indexOfAccount = async (id) => {
+   try {
+      let sql = ` 
+         SELECT 
+            *
+         FROM 
+            categories
+         WHERE 
+            account = '${id}'
+      `
+      let [result, fields] = await dbm.query(sql)
+      return result  
+   } catch (error) {
+      throw error
+   }
+  }
+
   get = async(data) => {
      try {
          let sql = `

@@ -5,7 +5,6 @@ import AccountsController from '../controllers/accounts';
 import UserController from '../controllers/users'
 import logger from '../middleware/logger';
 import * as bodyParser from 'body-parser';
-import * as cors from 'cors'
 
 const app = new App({
    port: 5000,
@@ -13,7 +12,6 @@ const app = new App({
       logger,
       bodyParser.json(),
       bodyParser.urlencoded({ extended: true }),
-      cors()
    ],
    controllers: [
       new DocumentsController(),

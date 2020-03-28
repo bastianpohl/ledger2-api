@@ -17,6 +17,7 @@ class UserController implements IfController {
    initRoutes() {
       this.router.post('/login', this.login)
       this.router.post('/register', this.register)
+      this.router.post(`/validate`, this.validate)
    }
 
    login = async (req: Request, res: Response) : Promise<any> => {
@@ -27,10 +28,12 @@ class UserController implements IfController {
          
          if (result === undefined) {
             res.status(401).json("Login unbekannt")
+            return
          }
 
          if (!await this.validatePassword(pass, result.pass_hash, result.pass_salt)) {
             res.status(401).json('Password falsch')
+            return
          }
          
          let sessions = await new Sessions()
@@ -47,6 +50,31 @@ class UserController implements IfController {
          
       } catch (error) {
          res.status(400).json(error)
+      }
+   }
+   
+   validate = async (req: Request, res: Response) : Promise<any> => {
+      try {
+         let token = req.body.token
+         let session = await new Sessions()
+         let result = await session.getUserByToken(token)
+         switch (result.length) {
+            case 1:
+               res.status(200).json({
+                  user: result[0].user,
+                  token: token,
+                  token_valid_from: result[0].token_valid_from,
+                  token_valid_to: result[0].token_valid_to
+               })
+               break;
+            case 0:
+               res.status(400).json(null)
+            default:
+               throw "DB ERROR"
+               break;
+         }
+      } catch (err) {
+         res.status(401).send()
       }
    }
 

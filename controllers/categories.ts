@@ -14,7 +14,7 @@ class CategoryController implements IfController {
    
    public initRoutes() {
       this.router.get(this.path, this.index);
-      this.router.get(`${this.path}/:id`, this.get);
+      this.router.get(`${this.path}/:account`, this.indexOfAccount);
       this.router.post(this.path, this.create);
       this.router.patch(this.path, this.update);
       this.router.delete(this.path, this.delete);
@@ -23,6 +23,16 @@ class CategoryController implements IfController {
    index = async (req: Request, res: Response) => {
       try {
          let result = await this.categories.getAll()
+         res.status(200).json(result)
+      } catch (error) {
+         res.status(400).json(error)
+      }
+   }
+   
+   indexOfAccount = async (req: Request, res: Response) => {
+      try {
+         let account = Number(req.params.account)
+         let result = await this.categories.indexOfAccount(account)
          res.status(200).json(result)
       } catch (error) {
          res.status(400).json(error)

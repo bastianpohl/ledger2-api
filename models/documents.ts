@@ -31,6 +31,40 @@ class Documents {
       }
    }
 
+   getFiltered = async (account?, period?) => {
+      try {
+         let sql =`
+            SELECT 
+               trans.id as id, 
+               trans.name as name, 
+               trans.type as type, 
+               trans.valueDate as date, 
+               trans.iban as iban, 
+               trans.amount as amount, 
+               trans.description as description,
+               cat.title as category
+            FROM 
+               transactions as trans
+            LEFT JOIN 
+               categories as cat
+            ON 
+               trans.category = cat.id
+            WHERE
+               trans.account = '${account}'
+            `
+         if (period) {
+            sql += `
+               AND
+                  trans.valueDate BETWEEN '${period.from}' AND '${period.to}'
+               `
+         }
+         let [result, fields] = await dmb.query(sql, undefined)
+         return result
+      } catch (error) {
+         throw error
+      }
+   }
+
    asignCategory = async(data) => {
       try {
          let sql = `
