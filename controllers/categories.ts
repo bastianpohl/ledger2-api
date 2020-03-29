@@ -17,7 +17,7 @@ class CategoryController implements IfController {
       this.router.get(`${this.path}/:account`, this.indexOfAccount);
       this.router.post(this.path, this.create);
       this.router.patch(this.path, this.update);
-      this.router.delete(this.path, this.delete);
+      this.router.delete(`${this.path}/:id`, this.delete);
    }
 
    index = async (req: Request, res: Response) => {
@@ -71,7 +71,7 @@ class CategoryController implements IfController {
 
    delete = async (req: Request, res: Response) => {
       try {
-         let id = req.body.id
+         let id = req.params.id
          let result = await this.categories.delete(id)
          res.status(202).json(result)
       } catch (error) {
