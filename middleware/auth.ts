@@ -11,7 +11,7 @@ class Auth {
       }
 
    private exceptionURLs = [
-      "/login", "/register"
+      "/login", "/register", "/validate"
    ]
 
    public user: Number
