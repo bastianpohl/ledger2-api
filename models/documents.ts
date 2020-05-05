@@ -12,13 +12,13 @@ class Documents extends DatabaseManager{
 
    getAll = async () => {
       try {
-         let sql =`
+         const sql =`
             SELECT
                *
             FROM
                transactions
          `
-         let [result, fields] = await this.query(sql, undefined)
+         const [result, fields] = await this.query(sql, undefined)
          return result
       } catch (error) {
          throw error
@@ -44,15 +44,17 @@ class Documents extends DatabaseManager{
             ON
                trans.category = cat.id
             WHERE
-               trans.account = '${account}'
+               trans.account = ?
             `
+         const values = [account, period.from, period.to]
+         
          if (period) {
             sql += `
                AND
-                  trans.valueDate BETWEEN '${period.from}' AND '${period.to}'
+                  trans.valueDate BETWEEN ? AND ?
                `
          }
-         let [result, fields] = await this.query(sql, undefined)
+         const [result, fields] = await this.query(sql, values)
          return result
       } catch (error) {
          throw error
@@ -61,13 +63,15 @@ class Documents extends DatabaseManager{
 
    asignCategory = async(data) => {
       try {
-         let sql = `
+         const sql = `
             UPDATE
                transactions
-            SET category = ${data.category}
-            WHERE id = ${data.id}
+            SET category = ?
+            WHERE id = ?
          `
-         let [result, fields] = await this.query(sql)
+         const values = [data.category, data.id]
+
+         const [result, fields] = await this.query(sql, values)
          return result
       } catch (error) {
          throw error

@@ -10,9 +10,9 @@ class Accounts extends DatabaseManager{
       await this.checkDB()
    }
 
-   index = async(user) => {
+   index = async(user: number) => {
       try {
-         let sql = `
+         const sql = `
             SELECT 
                acc.id, acc.iban, acc.title
             FROM
@@ -20,9 +20,10 @@ class Accounts extends DatabaseManager{
             LEFT JOIN accounts_users_relations as rel
             ON acc.id = rel.account
             WHERE
-               rel.user = '${user}'
+               rel.user = ?
          `
-         let [result, fields] = await this.query(sql)
+         const values = [user]
+         const [result, fields] = await this.query(sql, values)
          return result  
       } catch (error) {
          throw error
@@ -31,7 +32,7 @@ class Accounts extends DatabaseManager{
 
    getDetails = async (id: number) => {
       try {
-         let sql = `
+         const sql = `
             SELECT 
             acc.id as id, 
             acc.title as title, 
@@ -44,11 +45,12 @@ class Accounts extends DatabaseManager{
             ON 
                acc.iban = bal.iban
             WHERE
-               acc.id = '${id}'
+               acc.id = ?
             AND
-               bal.date = (SELECT MAX(valueDate) from transactions as trans WHERE trans.account = '${id}')
+               bal.date = (SELECT MAX(valueDate) from transactions as trans WHERE trans.account = ?)
             `
-         let [result, fields] = await this.query(sql)
+         const values = [id, id]
+         const [result, fields] = await this.query(sql, values)
          return result
       } catch (error) {
          throw error
@@ -57,7 +59,7 @@ class Accounts extends DatabaseManager{
 
    getOpeningBalance = async(account: number, from: string, to: string) => {
       try {
-         let sql = `
+         const sql = `
          	SELECT 
                   openingBalance as opening
                FROM 
@@ -74,14 +76,14 @@ class Accounts extends DatabaseManager{
                         transactions
                      WHERE 
                         valueDate 
-                     BETWEEN '${from}' AND '${to}'
+                     BETWEEN ? AND ?
                      AND 
-                        account = '${account}'
+                        account = ?
                   )
                AND 
-                  acc.id = '${account}'
+                  acc.id = ?
          `
-         let [result, fields] = await this.query(sql)
+         const [result, fields] = await this.query(sql, [from, to, account, account])
          return result
       } catch (error) {
          throw error
@@ -92,12 +94,12 @@ class Accounts extends DatabaseManager{
 
    create = async (data) => {
       try {
-         let sql = `
+         const sql = `
             INSERT INTO
                accounts
             SET ?
          `
-         let [result, fields] = await this.query(sql, data)
+         const [result, fields] = await this.query(sql, data)
          return result
       } catch (error) {
          throw error
@@ -106,16 +108,16 @@ class Accounts extends DatabaseManager{
 
    update = async (data) => {
       try {
-         let sql = `
+         const sql = `
             UPDATE 
                accounts
             SET
-               iban = '${data.iban}' AND
-               title = '${data.title}
+               iban = ? AND
+               title = ?
             WHERE
-               id = '${data.id}'
+               id = ?
          `
-         let [result, fields] = await this.query(sql)
+         const [result, fields] = await this.query(sql, [data.iban, data.title, data.id])
          return result   
       } catch (error) {
          throw error
@@ -124,13 +126,13 @@ class Accounts extends DatabaseManager{
 
    delete = async (data) => {
       try {
-         let sql = `
+         const sql = `
             DELETE FROM
                accounts
             WHERE
-               id = '${data}'
+               id = ?
          `
-         let [result, fields] = await this.query(sql)
+         const [result, fields] = await this.query(sql, [data])
          return result
       } catch (error) {
          throw error
@@ -149,7 +151,7 @@ class Accounts extends DatabaseManager{
             SET 
                ?
          `
-         let [result, field] = await this.query(sql, obj)
+         const [result, field] = await this.query(sql, obj)
          return result
       } catch (error) {
          throw error

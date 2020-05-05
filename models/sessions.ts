@@ -14,21 +14,22 @@ class Sessions extends DatabaseManager{
 
    getUserByToken = async (data) => {
       try {
-         let now = moment().format("YYYY-MM-DD")
-         let sql = `
+         const now = moment().format("YYYY-MM-DD")
+         const sql = `
             SELECT 
                user, token_valid_from, token_valid_to
             FROM
                sessions
             WHERE 
-               token = '${data}' 
+               token = ? 
             AND
-               token_valid_from <= '${now}' 
+               token_valid_from <= ?
             AND
-               token_valid_to >= '${now}'
+               token_valid_to >= ?
             LIMIT 1
          `
-         let [result, fields] = await this.query(sql)
+         const values = [data, now, now]
+         const [result, fields] = await this.query(sql, values)
          return result
       } catch (error) {
          throw error
@@ -37,20 +38,20 @@ class Sessions extends DatabaseManager{
 
    generateToken = async (user: Number) => {
       try {
-         let sessionObj = {
+         const sessionObj = {
             "token": uuid(),
             "user": user,
             "token_valid_from": moment().format("YYYY-MM-DD"),
             "token_valid_to": moment().add(5, "days").format("YYYY-MM-DD")
          }
    
-         let sql = `
+         const sql = `
             INSERT INTO
                sessions
             SET
                ?
          `
-         let [result, fields] = await this.query(sql, sessionObj)
+         const [result, fields] = await this.query(sql, sessionObj)
          if (result.affectedRows === 1) {
             return sessionObj
          } else {

@@ -12,13 +12,13 @@ class Categories extends DatabaseManager{
 
    getAll = async () => {
       try {
-         let sql  = `
+         const sql  = `
          SELECT 
             *
          FROM
             categories
          `
-         let [result, fields] = await this.query(sql)
+         const [result, fields] = await this.query(sql, null)
          return result
       } catch (error) {
          throw error
@@ -27,7 +27,7 @@ class Categories extends DatabaseManager{
 
   indexOfAccount = async (id) => {
    try {
-      let sql = ` 
+      const sql = ` 
          SELECT 
             *
          FROM 
@@ -35,7 +35,8 @@ class Categories extends DatabaseManager{
          WHERE 
             account = '${id}'
       `
-      let [result, fields] = await this.query(sql)
+      const values = [id]
+      const [result, fields] = await this.query(sql, values)
       return result  
    } catch (error) {
       throw error
@@ -44,15 +45,15 @@ class Categories extends DatabaseManager{
 
   get = async(data) => {
      try {
-         let sql = `
+         const sql = `
             SELECT 
                *
             FROM
                categories
             WHERE
-               id = ${data}
+               id = ?
          `
-         let [result, fields] = await this.query(sql, undefined)
+         const [result, fields] = await this.query(sql, [data])
          return result    
      } catch (error) {
          throw error
@@ -61,12 +62,12 @@ class Categories extends DatabaseManager{
 
   create = async (data) => {
       try {
-         let sql = `
+         const sql = `
             INSERT INTO
                categories
             SET ?
          `
-         let [result, fields] = await this.query(sql, data)
+         const [result, fields] = await this.query(sql, data)
          return result  
       } catch (error) {
          throw error
@@ -75,12 +76,12 @@ class Categories extends DatabaseManager{
 
    delete = async(data) => {
       try {
-         let sql = `
+         const sql = `
             DELETE FROM
                categories
-            WHERE id = ${data}
+            WHERE id = ?
          `
-         let [result, fields] = await this.query(sql, undefined)
+         const [result, fields] = await this.query(sql, [data])
          return result 
       } catch (error) {
          throw error
@@ -89,15 +90,15 @@ class Categories extends DatabaseManager{
 
    update = async(data) => {
       try {
-         let sql = `
+         const sql = `
             UPDATE 
                categories
             SET
-               title = '${data.title}'
+               title = ?
             WHERE
-               id = '${data.id}'
+               id = ?
          `
-         let [result, fields] = await this.query(sql, undefined)
+         const [result, fields] = await this.query(sql, [data.title, data.id])
          return result 
       } catch (error) {
          throw error

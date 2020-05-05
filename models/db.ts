@@ -33,7 +33,7 @@ class DatabaseManager {
       }
    }
 
-    query = async(sql, values?) => {
+    query = async(sql, values) => {
       try {
          return await this.conn.query(sql, values)
       } catch (error) {
