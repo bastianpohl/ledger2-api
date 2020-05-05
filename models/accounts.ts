@@ -142,6 +142,25 @@ class Accounts {
          throw error
       }
    }
+
+   asignUser = async (user: number, account: number) => {
+      try {
+         const obj = {
+            account: account,
+            user: user
+         }
+         const sql = `
+            INSERT INTO
+               accounts_users_relations
+            SET 
+               ?
+         `
+         let [result, field] = await dbm.query(sql, obj)
+         return result
+      } catch (error) {
+         throw error
+      }
+   }
 }
 
 export default Accounts

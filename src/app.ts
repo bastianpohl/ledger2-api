@@ -3,6 +3,7 @@ import DocumentsController from '../controllers/documents';
 import CategoriesController from '../controllers/categories';
 import AccountsController from '../controllers/accounts';
 import UserController from '../controllers/users'
+import LoginsController from '../controllers/logins'
 import logger from '../middleware/logger';
 import * as bodyParser from 'body-parser';
 
@@ -17,7 +18,8 @@ const app = new App({
       new DocumentsController(),
       new CategoriesController(),
       new AccountsController(),
-      new UserController()
+      new UserController(),
+      new LoginsController()
    ]
 });
 

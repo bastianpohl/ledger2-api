@@ -27,13 +27,12 @@ class AccountsController implements IfController {
       try {
          let user = await this.getUser(String(req.headers['x-token']))
          let result = await this.accounts.index(user)
-         console.log(result)
          res.status(200).json(result)
       } catch (error) {
          res.status(400).json(error)
       }
    }
-   
+
    getDetails = async (req: Request, res: Response) => {
       try {
          const account = Number(req.params.id)
@@ -58,8 +57,10 @@ class AccountsController implements IfController {
 
    create = async (req: Request, res: Response) => {
       try {
-         let data = req.body
-         let result = await this.accounts.create(data)
+         const data = req.body
+         const result = await this.accounts.create(data)
+         const user = await this.getUser(String(req.headers['x-token']))
+         await this.accounts.asignUser(user, result.insertId)
          res.status(200).json(result)
       } catch (error) {
          res.status(400).json(error)

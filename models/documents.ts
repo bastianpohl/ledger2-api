@@ -10,18 +10,19 @@ let dmb = new DatabaseManager({
 class Documents {
    constructor() {
       this.init()
+
    }
 
    private init = async () => {
       await dmb.checkDB()
    }
-   
+
    getAll = async () => {
       try {
          let sql =`
-            SELECT 
+            SELECT
                *
-            FROM 
+            FROM
                transactions
          `
          let [result, fields] = await dmb.query(sql, undefined)
@@ -34,20 +35,20 @@ class Documents {
    getFiltered = async (account?, period?) => {
       try {
          let sql =`
-            SELECT 
-               trans.id as id, 
-               trans.name as name, 
-               trans.type as type, 
-               trans.valueDate as date, 
-               trans.iban as iban, 
-               trans.amount as amount, 
+            SELECT
+               trans.id as id,
+               trans.name as name,
+               trans.type as type,
+               trans.valueDate as date,
+               trans.iban as iban,
+               trans.amount as amount,
                trans.description as description,
                cat.title as category
-            FROM 
+            FROM
                transactions as trans
-            LEFT JOIN 
+            LEFT JOIN
                categories as cat
-            ON 
+            ON
                trans.category = cat.id
             WHERE
                trans.account = '${account}'
@@ -68,7 +69,7 @@ class Documents {
    asignCategory = async(data) => {
       try {
          let sql = `
-            UPDATE 
+            UPDATE
                transactions
             SET category = ${data.category}
             WHERE id = ${data.id}
