@@ -2,20 +2,14 @@ import DatabaseManager from './db';
 import * as moment from 'moment';
 import uuid from '../generic/uuid'
 
-let dbm = new DatabaseManager({
-   host: `localhost`,
-   user: `chewie`,
-   pass: `test`,
-   db: `ledger`
-})
-
-class Sessions {
+class Sessions extends DatabaseManager{
    constructor() {
+      super();
       this.init()
    }
 
    private init = async () => {
-      await dbm.checkDB()
+      await this.checkDB()
    }
 
    getUserByToken = async (data) => {
@@ -34,7 +28,7 @@ class Sessions {
                token_valid_to >= '${now}'
             LIMIT 1
          `
-         let [result, fields] = await dbm.query(sql)
+         let [result, fields] = await this.query(sql)
          return result
       } catch (error) {
          throw error
@@ -56,7 +50,7 @@ class Sessions {
             SET
                ?
          `
-         let [result, fields] = await dbm.query(sql, sessionObj)
+         let [result, fields] = await this.query(sql, sessionObj)
          if (result.affectedRows === 1) {
             return sessionObj
          } else {

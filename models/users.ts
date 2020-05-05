@@ -1,19 +1,13 @@
 import DatabaseManager from './db'
 
-let dbm = new DatabaseManager({
-   host: `localhost`,
-   user: `chewie`,
-   pass: `test`,
-   db: `ledger`
-})
-
-class Users {
+class Users extends DatabaseManager {
    constructor(){
+      super()
       this.init()
    }
 
    private init = async () => {
-      await dbm.checkDB()
+      await this.checkDB()
    }
 
    login = async (data: String) => {
@@ -27,7 +21,7 @@ class Users {
                user = '${data}'
             LIMIT 1
          `
-         let [result, fields] = await dbm.query(sql, undefined);
+         let [result, fields] = await this.query(sql, undefined);
          return result[0]
       } catch (error) {
          throw error
@@ -50,7 +44,7 @@ class Users {
             FROM
                users
          `
-         let [result, fields] = await dbm.query(sql, undefined)
+         let [result, fields] = await this.query(sql, undefined)
          return result
       } catch (error) {
          throw error
@@ -64,7 +58,7 @@ class Users {
                users
             SET ?
          `
-         let [result, fields] = await dbm.query(sql, data)
+         let [result, fields] = await this.query(sql, data)
          return result
       } catch (error) {
          throw error
@@ -79,7 +73,7 @@ class Users {
             WHERE
                id = ${id}
          `
-         let [result, fields] = await dbm.query(sql, undefined)
+         let [result, fields] = await this.query(sql, undefined)
          return result
       } catch (error) {
          throw error

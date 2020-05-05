@@ -1,19 +1,13 @@
 import DatabaseManager from './db'
 
-let dbm = new DatabaseManager({
-   host: `localhost`,
-   user: `chewie`,
-   pass: `test`,
-   db: `ledger`
-})
-
-class Accounts {
+class Accounts extends DatabaseManager{
    constructor() {
+      super()
       this.init()
    }
 
    private init = async () => {
-      await dbm.checkDB()
+      await this.checkDB()
    }
 
    index = async(user) => {
@@ -28,7 +22,7 @@ class Accounts {
             WHERE
                rel.user = '${user}'
          `
-         let [result, fields] = await dbm.query(sql)
+         let [result, fields] = await this.query(sql)
          return result  
       } catch (error) {
          throw error
@@ -54,7 +48,7 @@ class Accounts {
             AND
                bal.date = (SELECT MAX(valueDate) from transactions as trans WHERE trans.account = '${id}')
             `
-         let [result, fields] = await dbm.query(sql)
+         let [result, fields] = await this.query(sql)
          return result
       } catch (error) {
          throw error
@@ -87,7 +81,7 @@ class Accounts {
                AND 
                   acc.id = '${account}'
          `
-         let [result, fields] = await dbm.query(sql)
+         let [result, fields] = await this.query(sql)
          return result
       } catch (error) {
          throw error
@@ -103,7 +97,7 @@ class Accounts {
                accounts
             SET ?
          `
-         let [result, fields] = await dbm.query(sql, data)
+         let [result, fields] = await this.query(sql, data)
          return result
       } catch (error) {
          throw error
@@ -121,7 +115,7 @@ class Accounts {
             WHERE
                id = '${data.id}'
          `
-         let [result, fields] = await dbm.query(sql)
+         let [result, fields] = await this.query(sql)
          return result   
       } catch (error) {
          throw error
@@ -136,7 +130,7 @@ class Accounts {
             WHERE
                id = '${data}'
          `
-         let [result, fields] = await dbm.query(sql)
+         let [result, fields] = await this.query(sql)
          return result
       } catch (error) {
          throw error
@@ -155,7 +149,7 @@ class Accounts {
             SET 
                ?
          `
-         let [result, field] = await dbm.query(sql, obj)
+         let [result, field] = await this.query(sql, obj)
          return result
       } catch (error) {
          throw error

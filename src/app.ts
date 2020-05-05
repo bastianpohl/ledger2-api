@@ -7,6 +7,10 @@ import LoginsController from '../controllers/logins'
 import logger from '../middleware/logger';
 import * as bodyParser from 'body-parser';
 
+// integrate env files
+import * as dotenv from "dotenv";
+dotenv.config()
+
 const app = new App({
    port: 5000,
    middlewares: [

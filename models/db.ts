@@ -6,11 +6,11 @@ class DatabaseManager {
    private pass: any
    private db: any
    public conn: any
-   constructor(init: {host: String, user: String, pass: String, db: String}) {
-      this.host = init.host
-      this.user = init.user
-      this.pass = init.pass
-      this.db = init.db
+   constructor() {
+      this.host = process.env.DB_HOST 
+      this.user = process.env.DB_USER
+      this.pass = process.env.DB_PASS
+      this.db   = process.env.DB_DATABASE
       this.conn = null
       
    }
@@ -27,13 +27,13 @@ class DatabaseManager {
       })
    }
 
-   checkDB = async() => {
+    checkDB = async() => {
       if (this.conn === null) {
          await this.initDB()
       }
    }
 
-   query = async(sql, values?) => {
+    query = async(sql, values?) => {
       try {
          return await this.conn.query(sql, values)
       } catch (error) {
@@ -41,7 +41,7 @@ class DatabaseManager {
       }
    }
    
-   close = async() => {
+    close = async() => {
       this.conn.close()
    }
 }

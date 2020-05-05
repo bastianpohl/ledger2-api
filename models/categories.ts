@@ -1,19 +1,13 @@
 import DatabaseManager from './db'
 
-let dbm = new DatabaseManager({
-   host: `localhost`,
-   user: `chewie`,
-   pass: `test`,
-   db: `ledger`
-})
-
-class Categories {
+class Categories extends DatabaseManager{
    constructor() {
+      super()
       this.init()
    }
 
    private init = async () => {
-      await dbm.checkDB()
+      await this.checkDB()
    }
 
    getAll = async () => {
@@ -24,8 +18,8 @@ class Categories {
          FROM
             categories
          `
-         let [result, fields] = await dbm.query(sql)
-         return result         
+         let [result, fields] = await this.query(sql)
+         return result
       } catch (error) {
          throw error
       }
@@ -41,7 +35,7 @@ class Categories {
          WHERE 
             account = '${id}'
       `
-      let [result, fields] = await dbm.query(sql)
+      let [result, fields] = await this.query(sql)
       return result  
    } catch (error) {
       throw error
@@ -58,7 +52,7 @@ class Categories {
             WHERE
                id = ${data}
          `
-         let [result, fields] = await dbm.query(sql, undefined)
+         let [result, fields] = await this.query(sql, undefined)
          return result    
      } catch (error) {
          throw error
@@ -72,7 +66,7 @@ class Categories {
                categories
             SET ?
          `
-         let [result, fields] = await dbm.query(sql, data)
+         let [result, fields] = await this.query(sql, data)
          return result  
       } catch (error) {
          throw error
@@ -86,7 +80,7 @@ class Categories {
                categories
             WHERE id = ${data}
          `
-         let [result, fields] = await dbm.query(sql, undefined)
+         let [result, fields] = await this.query(sql, undefined)
          return result 
       } catch (error) {
          throw error
@@ -103,7 +97,7 @@ class Categories {
             WHERE
                id = '${data.id}'
          `
-         let [result, fields] = await dbm.query(sql, undefined)
+         let [result, fields] = await this.query(sql, undefined)
          return result 
       } catch (error) {
          throw error

@@ -1,20 +1,13 @@
 import DatabaseManager from './db'
 
-let dmb = new DatabaseManager({
-   host: `localhost`,
-   user: `chewie`,
-   pass: `test`,
-   db: `ledger`
-})
-
-class Documents {
+class Documents extends DatabaseManager{
    constructor() {
+      super()
       this.init()
-
    }
 
    private init = async () => {
-      await dmb.checkDB()
+      await this.checkDB()
    }
 
    getAll = async () => {
@@ -25,7 +18,7 @@ class Documents {
             FROM
                transactions
          `
-         let [result, fields] = await dmb.query(sql, undefined)
+         let [result, fields] = await this.query(sql, undefined)
          return result
       } catch (error) {
          throw error
@@ -59,7 +52,7 @@ class Documents {
                   trans.valueDate BETWEEN '${period.from}' AND '${period.to}'
                `
          }
-         let [result, fields] = await dmb.query(sql, undefined)
+         let [result, fields] = await this.query(sql, undefined)
          return result
       } catch (error) {
          throw error
@@ -74,7 +67,7 @@ class Documents {
             SET category = ${data.category}
             WHERE id = ${data.id}
          `
-         let [result, fields] = await dmb.query(sql)
+         let [result, fields] = await this.query(sql)
          return result
       } catch (error) {
          throw error

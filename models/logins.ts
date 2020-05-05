@@ -1,19 +1,13 @@
 import DatabaseManager from './db'
 
-let dbm = new DatabaseManager({
-   host: `localhost`,
-   user: `chewie`,
-   pass: `test`,
-   db: `ledger`
-})
-
-class Logins {
+class Logins extends DatabaseManager {
    constructor() {
+      super()
       this.init()
    }
 
    private init = async () => {
-      await dbm.checkDB()
+      await this.checkDB()
    }
 
    index = async () => {
@@ -24,7 +18,7 @@ class Logins {
             FROM
                fints_credentials
          `
-         const [results, fields] = await dbm.query(sql, undefined)
+         const [results, fields] = await this.query(sql, undefined)
          return results
       } catch (error) {
          throw error
@@ -39,7 +33,7 @@ class Logins {
             SET
                ?
          `
-         const [results, fields] = await dbm.query(sql, data)
+         const [results, fields] = await this.query(sql, data)
          return results
       } catch (error) {
          throw error
