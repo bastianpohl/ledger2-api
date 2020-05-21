@@ -29,7 +29,7 @@ class LoginsController implements IfController {
 
    create = async (req: Request, res: Response) => {
       try {
-         const secret = "lakejrltkjawl4j5ß53mfmrpmp"
+         const secret = process.env.SECRET
          const cryptr = new Cryptr(secret)
          const data = req.body
          data.login = cryptr.encrypt(data.login)

@@ -47,7 +47,7 @@ class AccountsController implements IfController {
       try {
          const account = Number(req.params.id)
          const from = req.params.from
-         const  to = req.params.to
+         const to = req.params.to
          const result = await this.accounts.getOpeningBalance(account, from, to)
          res.status(200).json(result)
       } catch (err) {
