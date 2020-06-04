@@ -12,7 +12,6 @@ class DatabaseManager {
       this.pass = process.env.DB_PASS
       this.db   = process.env.DB_DATABASE
       this.conn = null
-      
    }
 
    initDB = async () => {
@@ -35,15 +34,15 @@ class DatabaseManager {
 
     query = async(sql, values) => {
       try {
-         return await this.conn.query(sql, values)
+         await this.checkDB()
+         const data = await this.conn.query(sql, values)
+         return data 
       } catch (error) {
          throw error
       }
    }
    
-    close = async() => {
-      this.conn.close()
-   }
+
 }
 
 export default DatabaseManager

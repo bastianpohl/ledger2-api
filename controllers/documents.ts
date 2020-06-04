@@ -24,7 +24,6 @@ class DocumentsController implements IfController {
       try {
          let result = await this.docs.getAll()
          res.status(200).json(result)
-         this.docs.close()
       } catch (error) {
          res.status(400).json(error)
       }
