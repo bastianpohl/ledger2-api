@@ -30,12 +30,12 @@ class UserController implements IfController {
          let result = await this.users.login(user)
 
          if (result === undefined) {
-            res.json({"msg": "ä"})
+            res.status(401).json("no user")
             return
          }
 
          if (!await this.validatePassword(pass, result.pass_hash, result.pass_salt)) {
-            res.json({"msg": "ö"})
+            res.status(401).json("wrong password")
             return
          }
 

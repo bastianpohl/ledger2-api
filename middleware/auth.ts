@@ -30,7 +30,7 @@ class Auth {
          }
          next()
       } catch (error) {
-         res.json(req.baseUrl)
+         res.status(401).json(error)
       }
    }
 
