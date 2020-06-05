@@ -20,9 +20,9 @@ class DatabaseManager {
          user: this.user,
          password: this.pass,
          database: this.db,
-         waitForConnections: true,
-         connectionLimit: 10,
-         queueLimit: 300
+         waitForConnections: process.env.DB_WAIT_CONN,
+         connectionLimit: process.env.DB_CONN_LIMIT,
+         queueLimit: process.env.DB_QUEUE_LIMIT
       })
    }
 
