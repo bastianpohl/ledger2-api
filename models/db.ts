@@ -31,7 +31,7 @@ class DatabaseManager {
       try {
          await this.checkDB()
          const data = await this.conn.query(sql, values)
-         await this.conn.release()
+         await this.conn.end()
          return data 
       } catch (error) {
          throw error
