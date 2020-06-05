@@ -34,7 +34,7 @@ class App {
    
    private routes(controllers) {
       controllers.forEach(controller => {
-         this.app.use(process.env.BASE_PATH + controller.router)
+         this.app.use(process.env.BASE_PATH, controller.router)
       });
    }
 
