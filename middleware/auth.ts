@@ -63,7 +63,8 @@ class Auth {
    }
 
    private checkException = (req: Request) => {
-      return this.exceptionURLs.includes(req.baseUrl)
+      const exceptions = this.exceptionURLs.map( (exception: string) => process.env.BASE_PATH + exception)
+      return exceptions.includes(req.baseUrl)
    }
 }
 
