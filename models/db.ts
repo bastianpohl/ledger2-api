@@ -1,6 +1,6 @@
 import * as sql from 'mysql2/promise'
 
-const pool = sql.createPool({
+const connection = sql.createConnection({
    host: process.env.DB_HOST,
    user: process.env.DB_USER,
    password: process.env.DB_PASS,
@@ -18,7 +18,7 @@ class DatabaseManager {
    }
 
    initDB = async () => {
-      this.conn = await pool.getConnection()
+      this.conn = await connection
    }
 
     checkDB = async() => {
@@ -31,7 +31,6 @@ class DatabaseManager {
       try {
          await this.checkDB()
          const data = await this.conn.query(sql, values)
-         await this.conn.release()
          return data 
       } catch (error) {
          throw error
